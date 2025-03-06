@@ -1,0 +1,37 @@
+// Uncomment this line to use CSS modules
+// import styles from './app.module.css';
+import NxWelcome from './nx-welcome';
+import * as ReactDOM from 'react-dom/client';
+
+export function defineReactWebComponent(
+  component: React.ReactElement,
+  name: string
+) {
+  class ReactWebComponent extends HTMLElement {
+    private root: ReactDOM.Root | null = null;
+
+    connectedCallback() {
+      this.root = ReactDOM.createRoot(this);
+      this.root.render(component);
+    }
+
+    disconnectedCallback() {
+      this.root?.unmount();
+    }
+  }
+  if (!customElements.get(name)) {
+    customElements.define(name, ReactWebComponent);
+  }
+}
+
+export function App() {
+  return (
+    <div>
+      <NxWelcome title="blog" />
+    </div>
+  );
+}
+
+defineReactWebComponent(<App />, 'blog-react');
+
+export default App;
