@@ -28,9 +28,12 @@ jobs:
       - name: 📦 Install Dependencies
         run: npm ci --legacy-peer-deps
 
-      - name: 🔍 Get Affected Apps
-        id: affected_apps
-        run: echo "APPS=$(npx nx show projects --affected)" >> $GITHUB_ENV
+      - name: 🔍 Debug Affected Apps
+        run: |
+          echo "NX_BASE: $NX_BASE"
+          echo "NX_HEAD: $NX_HEAD"
+          echo "Affected apps:"
+          npx nx show projects --affected --base=$NX_BASE --head=$NX_HEAD
 
       - name: 🔎 Lint Affected Apps
         run: npx nx affected -t lint
@@ -40,20 +43,28 @@ jobs:
 
       - name: 🏗 Build Affected Apps
         run: |
-          if [[ -z "${{ env.APPS }}" ]]; then
+          APPS=$(npx nx show projects --affected)
+          if [[ -z "$APPS" ]]; then
             echo "✅ No affected apps. Skipping build."
             exit 0
           fi
-          for app in ${{ env.APPS }}; do
+          for app in $APPS; do
             echo "🚀 Building $app..."
             npx nx build $app --prod
           done
 
-      - name: 🚀 Deploy to VPS
+      - name: 🔑 Setup SSH
         run: |
-          chmod +x ./deploy.sh
-          ./deploy.sh
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H "${{ secrets.VPS_IP }}" >> ~/.ssh/known_hosts
+
+      - name: 🚀 Deploy to VPS
+        run: ./deploy.sh
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           VPS_IP: ${{ secrets.VPS_IP }}
           VPS_USER: ${{ secrets.VPS_USER }}
+          NX_BASE: ${{ github.event.before }}
+          NX_HEAD: ${{ github.sha }}

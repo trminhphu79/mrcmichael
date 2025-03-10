@@ -9,20 +9,14 @@ if [ -z "$apps" ]; then
 fi
 
 VPS_USER="${VPS_USER:-root}"
-VPS_IP="${VPS_IP:-1ss}"
+VPS_IP="${VPS_IP:-${VPS_IP}}"
 DEPLOY_DIR="/var/www/html"
-
-echo "🔑 Setting up SSH authentication..."
-mkdir -p ~/.ssh
-echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
-chmod 600 ~/.ssh/id_rsa
-ssh-keyscan -H "$VPS_IP" >> ~/.ssh/known_hosts
 
 echo "🚀 Starting deployment process..."
 
 for app in $apps; do
   echo "🚧 Building $app..."
-  npx nx build $app --prod & # Run build in parallel
+  npx nx build $app --prod &
 
   if [ $? -ne 0 ]; then
     echo "❌ Build failed for $app. Skipping deployment..."
@@ -39,5 +33,5 @@ for app in $apps; do
   fi
 done
 
-wait 
+wait
 echo "🎉 Deployment process completed!"
