@@ -53,15 +53,10 @@ jobs:
             npx nx build $app --prod
           done
 
-      - name: 🔑 Setup SSH Authentication
+      - name: 🔑 Setup SSH & Deploy
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H "${{ secrets.VPS_IP }}" >> ~/.ssh/known_hosts
-
-      - name: 🚀 Deploy to VPS
-        run: ./deploy.sh
+          chmod +x ./deploy.sh
+          ./deploy.sh
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           VPS_IP: ${{ secrets.VPS_IP }}
