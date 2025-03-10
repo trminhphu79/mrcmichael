@@ -30,21 +30,34 @@ done
 
 # **Step 2: Copy Built Files to VPS (New Deployment Path)**
 DEPLOY_DIR="/home/lelinh781/application/mcrmichael"
+SSH_CMD="ssh -i ~/.ssh/id_rsa -p 2222 lelinh781@36.50.26.31"
 echo "📦 Copying built files to VPS..."
 rsync -avz -e "ssh -i ~/.ssh/id_rsa -p 2222" dist/apps/ lelinh781@36.50.26.31:/home/lelinh781/application/mcrmichael/
-echo "🚀 Stopping apps..."
-ssh -i ~/.ssh/id_rsa -p 2222 lelinh781@36.50.26.31 "cd /home/lelinh781/application/mcrmichael && ./stop-apps.sh"
-echo "🚀 Starting apps..."
-ssh -i ~/.ssh/id_rsa -p 2222 lelinh781@36.50.26.31 "cd /home/lelinh781/application/mcrmichael && ./start.sh"
 
-if [ $? -eq 0 ]; then
-  echo "✅ Deployment Successful!"
+
+echo "🚀 Stopping apps..."
+if $SSH_CMD "cd /home/lelinh781/application/mcrmichael && ./stop-apps.sh"; then
+    echo "✅ Apps stopped successfully"
 else
-  echo "❌ Deployment Failed!"
-  exit 1
+    echo "❌ Failed to stop apps"
+    exit 1
 fi
 
+echo "🚀 Starting apps..."
+if $SSH_CMD "cd /home/lelinh781/application/mcrmichael && ./start.sh"; then
+    echo "✅ Apps started successfully"
+else
+    echo "❌ Failed to start apps"
+    exit 1
+fi
+
+echo "🎉 Deployment completed successfully!"
+
 echo "🎉 Deployment completed!"
+
+
+
+
 
 
 
