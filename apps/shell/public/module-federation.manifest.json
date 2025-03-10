@@ -1,5 +1,5 @@
 {
-  "angular": "http://localhost:4204/mf-manifest.json",
-  "blog": "http://localhost:4201/mf-manifest.json",
-  "admin": "http://localhost:4203/mf-manifest.json"
+  "angular": "http://36.50.26.31:4204/mf-manifest.json",
+  "blog": "http://36.50.26.31:4201/mf-manifest.json",
+  "admin": "http://36.50.26.31:4203/mf-manifest.json"
 }
