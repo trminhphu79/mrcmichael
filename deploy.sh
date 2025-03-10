@@ -34,86 +34,19 @@ SSH_CMD="ssh -i ~/.ssh/id_rsa -p 2222 lelinh781@36.50.26.31"
 echo "📦 Copying built files to VPS..."
 rsync -avz -e "ssh -i ~/.ssh/id_rsa -p 2222" dist/apps/ lelinh781@36.50.26.31:/home/lelinh781/application/mcrmichael/
 
-# **Step 3: Restart PM2 Services for Affected Apps**
-echo "🔄 Restarting services for affected apps..."
-
-# Create a temporary script to restart only affected services
-RESTART_SCRIPT=$(cat <<EOF
-#!/bin/bash
-cd $DEPLOY_DIR
-
-# Check if PM2 is installed
-if ! command -v pm2 &> /dev/null; then
-    echo "Installing PM2..."
-    npm install -g pm2
-fi
-
-# Function to restart or create PM2 service
-restart_service() {
-    local app=\$1
-    local port=\$2
-    
-    echo "Restarting \$app on port \$port..."
-    
-    # Check if service exists
-    if pm2 list | grep -q "\$app"; then
-        # Restart existing service
-        pm2 restart \$app
-    else
-        # Create new service
-        pm2 serve ./\$app \$port --spa --name "\$app"
-    fi
-}
-
-# Map app names to ports
-EOF
-)
-
-# Add restart commands for each affected app
+# **Step 3: Notify about deployed apps**
+echo "🔄 Deployed the following apps:"
 for app in $APPS; do
-  case $app in
-    "shell")
-      RESTART_SCRIPT+="restart_service shell 4200\n"
-      ;;
-    "blog")
-      RESTART_SCRIPT+="restart_service blog 4201\n"
-      ;;
-    "angular")
-      RESTART_SCRIPT+="restart_service angular 4204\n"
-      ;;
-    "admin")
-      RESTART_SCRIPT+="restart_service admin 4203\n"
-      ;;
-  esac
+  echo "  - $app"
 done
 
-RESTART_SCRIPT+="
-# Save PM2 configuration
-pm2 save
-
-# List running services
-pm2 list
-
-echo '✅ Services restarted successfully!'
-"
-
-# Execute the restart script on the VPS
-echo "Executing restart script on VPS..."
-if $SSH_CMD "echo '$RESTART_SCRIPT' > $DEPLOY_DIR/restart-affected.sh && chmod +x $DEPLOY_DIR/restart-affected.sh && $DEPLOY_DIR/restart-affected.sh"; then
-    echo "✅ Services restarted successfully"
+# **Step 4: Reload Nginx (optional)**
+echo "🔄 Reloading Nginx..."
+if $SSH_CMD "sudo systemctl reload nginx"; then
+  echo "✅ Nginx reloaded successfully"
 else
-    echo "❌ Failed to restart services"
-    exit 1
+  echo "⚠️ Failed to reload Nginx, but files were deployed successfully"
+  echo "   You may need to reload Nginx manually"
 fi
 
 echo "🎉 Deployment completed successfully!"
-
-echo "🎉 Deployment completed!"
-
-
-
-
-
-
-
-
