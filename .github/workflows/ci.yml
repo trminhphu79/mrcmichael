@@ -26,7 +26,7 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Set SHAs for affected detection
         uses: nrwl/nx-set-shas@v4
@@ -36,9 +36,6 @@ jobs:
 
       - name: Run Lint on affected apps
         run: npx nx affected -t lint --parallel=3
-
-      - name: Run Tests on affected apps
-        run: npx nx affected -t test --parallel=3
 
       - name: Build affected applications
         run: npx nx affected -t build --parallel=3

@@ -103,6 +103,11 @@
     },
     "@nx/angular:component": {
       "style": "css"
+    },
+    "pluginsConfig": {
+      "@nx/js": {
+        "projectsAffectedByDependencyUpdates": "auto"
+      }
     }
   }
 }
