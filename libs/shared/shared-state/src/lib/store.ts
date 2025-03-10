@@ -150,12 +150,10 @@ export class Store {
     this.setState({ notifications: updatedNotifications });
   }
 
-  // Optional: Add a method to export state
   public exportState(): string {
     return JSON.stringify(this.getCurrentState(), null, 2);
   }
 
-  // Optional: Add a method to import state
   public importState(stateJson: string): void {
     try {
       const newState = JSON.parse(stateJson);
@@ -171,7 +169,6 @@ Object.freeze(Store);
 
 export const store = Store.getInstance();
 
-// Optional: Add automatic cleanup of old notifications
 setInterval(() => {
-  store.cleanupOldNotifications(7); // Clean up notifications older than 7 days
-}, 24 * 60 * 60 * 1000); // Run once per day
+  store.cleanupOldNotifications(7);
+}, 24 * 60 * 60 * 1000);
