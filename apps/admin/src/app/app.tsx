@@ -6,7 +6,9 @@ export function defineReactWebComponent(
   component: React.ReactElement,
   name: string
 ) {
-  class ReactWebComponent extends HTMLElement {
+
+  console.log("defineReactWebComponent: admin-react");
+    class ReactWebComponent extends HTMLElement {
     private root: ReactDOM.Root | null = null;
 
     connectedCallback() {
@@ -32,4 +34,5 @@ export function App() {
 }
 
 defineReactWebComponent(<App />, 'admin-react');
+
 export default App;

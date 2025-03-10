@@ -16,8 +16,10 @@
     "baseUrl": ".",
     "paths": {
       "@mrcmichael/federation": ["lib/federation/src/index.ts"],
+      "@mrcmichael/shared": ["libs/shared/src/index.ts"],
       "admin/Module": ["apps/admin/src/remote-entry.ts"],
       "blog/Module": ["apps/blog/src/remote-entry.ts"],
+      "@mrcmichael/shared-state": ["libs/shared/shared-state/src/lib/index.ts"],
       "michael/Routes": ["apps/michael/src/app/remote-entry/entry.routes.ts"]
     }
   },

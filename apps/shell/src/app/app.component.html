@@ -1,6 +1,35 @@
-<ul class="remote-menu">
-  <li><a routerLink="/">Home</a></li>
-  <li><a routerLink="blog">Blog</a></li>
-  <li><a routerLink="admin">Admin</a></li>
-</ul>
-<router-outlet></router-outlet>
+<nav class="navbar">
+  <div class="nav-brand">MyChael Nx - Micro frontend</div>
+  <ul class="nav-menu">
+    <li>
+      <a
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Home</a
+      >
+    </li>
+    <li><a routerLink="blog" routerLinkActive="active">Blog</a></li>
+    <li><a routerLink="admin" routerLinkActive="active">Admin</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="theme-toggle" (click)="toggleTheme()">
+      <i class="material-icons">{{
+        (currentTheme | async) === 'dark' ? 'light_mode' : 'dark_mode'
+      }}</i>
+    </button>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="user-section" *ngIf="user$ | async as user">
+    <div class="user-welcome">
+      <i class="material-icons">account_circle</i>
+      <span>Welcome, {{ user?.name }}! this is Angular App Shell</span>
+    </div>
+  </div>
+
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

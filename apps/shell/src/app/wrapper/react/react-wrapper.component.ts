@@ -15,8 +15,10 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './react-wrapper.component.css',
 })
 export class ReactWrapperComponent implements AfterContentInit {
+  
   @ViewChild('vc', { read: ElementRef, static: true }) vc!: ElementRef;
   constructor(private route: ActivatedRoute) {}
+
   async ngAfterContentInit(): Promise<void> {
     const elementName = this.route.snapshot.data['elementName'];
     const loader = this.route.snapshot.data['loadChildren'];
