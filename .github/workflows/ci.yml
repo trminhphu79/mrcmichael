@@ -49,15 +49,11 @@ jobs:
             npx nx build $app --prod
           done
 
-      - name: 🔄 Deploy to VPS
-        if: success()
+      - name: 🚀 Deploy to VPS
         run: |
-          if [[ -z "${{ env.APPS }}" ]]; then
-            echo "✅ No affected apps. Skipping deployment."
-            exit 0
-          fi
           chmod +x ./deploy.sh
           ./deploy.sh
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           VPS_IP: ${{ secrets.VPS_IP }}
+          VPS_USER: ${{ secrets.VPS_USER }}
