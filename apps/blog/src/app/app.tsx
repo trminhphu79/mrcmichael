@@ -306,11 +306,10 @@ export function App() {
       <div className={`app-container ${theme}`}>
         <div className="content-wrapper">
           <header className="app-header">
-            <h1>Blog Dashboard ReactJs Application</h1>
             <br />
             <br />
             <br />
-
+Changeee
             <div>
               <button onClick={() => storeInstance.clearStorage()}>
                 Clear All State

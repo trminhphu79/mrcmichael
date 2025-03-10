@@ -1,0 +1,51 @@
+name: CI Pipeline for NX Microfrontend
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  affected:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Set SHAs for affected detection
+        uses: nrwl/nx-set-shas@v4
+
+      - name: Check formatting
+        run: npx nx format:check
+
+      - name: Run Lint on affected apps
+        run: npx nx affected -t lint --parallel=3
+
+      - name: Run Tests on affected apps
+        run: npx nx affected -t test --parallel=3
+
+      - name: Build affected applications
+        run: npx nx affected -t build --parallel=3
+
+      - name: Deploy Built Apps
+        run: |
+          for app in $(npx nx print-affected --type=app --select=projects); do
+            echo "Deploying $app..."
+            cp -r dist/apps/$app /var/www/html/$app
+          done
