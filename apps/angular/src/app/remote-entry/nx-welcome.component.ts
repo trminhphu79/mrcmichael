@@ -7,7 +7,7 @@ import { take } from 'rxjs/operators';
   selector: 'app-nx-welcome',
   imports: [CommonModule],
   template: `
-    <h1>New version Angular 2</h1>
+    <h1>New version Angular 4</h1>
     <div
       class="notifications-panel"
       *ngIf="notifications$ | async as notifications"
