@@ -43,14 +43,17 @@ jobs:
 
       - name: 🏗 Build Affected Apps
         run: |
-          APPS=$(npx nx show projects --affected)
+          APPS=$(npx nx show projects --affected --type=app)
+          echo "Detected affected apps: $APPS"
+
           if [[ -z "$APPS" ]]; then
             echo "✅ No affected apps. Skipping build."
             exit 0
           fi
+
           for app in $APPS; do
             echo "🚀 Building $app..."
-            npx nx build $app --prod
+            npx nx build $app --prod || { echo "❌ Build failed for $app!"; exit 1; }
           done
 
       - name: 🔑 Setup SSH & Deploy
