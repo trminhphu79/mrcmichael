@@ -31,7 +31,7 @@ done
 # **Step 2: Copy Built Files to VPS (New Deployment Path)**
 DEPLOY_DIR="/home/lelinh781/application/mcrmichael"
 echo "📦 Copying built files to VPS..."
-rsync -avz -e "ssh -i ~/.ssh/id_rsa -p 2222" dist/apps/ "lelinh781@36.50.26.31:${DEPLOY_DIR}/"
+rsync -avz -e "ssh -i ~/.ssh/id_rsa -p 2222" dist/apps/ lelinh781@36.50.26.31:/home/lelinh781/application/mcrmichael/
 
 if [ $? -eq 0 ]; then
   echo "✅ Deployment Successful!"
@@ -41,3 +41,7 @@ else
 fi
 
 echo "🎉 Deployment completed!"
+
+
+
+
