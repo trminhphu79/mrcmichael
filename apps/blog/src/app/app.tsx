@@ -307,15 +307,33 @@ export function App() {
         <div className="content-wrapper">
           <header className="app-header">
             <h1>Blog Dashboard ReactJs Application</h1>
+            <br />
+            <br />
+            <br />
 
-            <button
-              className="btn btn-se scondary"
-              onClick={() =>
-                storeInstance.addNotification(generateRandomNotification())
-              }
-            >
-              Add Notification
-            </button>
+            <div>
+              <button onClick={() => storeInstance.clearStorage()}>
+                Clear All State
+              </button>
+            </div>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <div>
+              {' '}
+              <button
+                className="btn btn-se scondary"
+                onClick={() =>
+                  storeInstance.addNotification(generateRandomNotification())
+                }
+              >
+                Add Notification
+              </button>
+            </div>
             <div>Total Notifications:{notifications.length}</div>
             <div>Unread Notifications:{unreadNotificationsCount}</div>
             <NotificationAlert store={storeInstance} />
