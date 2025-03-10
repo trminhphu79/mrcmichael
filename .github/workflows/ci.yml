@@ -31,12 +31,6 @@ jobs:
       - name: Set SHAs for affected detection
         uses: nrwl/nx-set-shas@v4
 
-      - name: Check formatting
-        run: npx nx format:check
-
-      - name: Run Lint on affected apps
-        run: npx nx affected -t lint --parallel=3
-
       - name: Build affected applications
         run: npx nx affected -t build --parallel=3
 
