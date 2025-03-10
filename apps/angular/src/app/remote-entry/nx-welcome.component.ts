@@ -12,7 +12,7 @@ import { take } from 'rxjs/operators';
       class="notifications-panel"
       *ngIf="notifications$ | async as notifications"
     >
-    Angular Test
+    Angular Test 222
       <div class="notifications-header">
         <h3>Notifications ({{ notifications.length }})</h3>
       </div>
