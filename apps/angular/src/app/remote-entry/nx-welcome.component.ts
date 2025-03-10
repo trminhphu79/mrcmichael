@@ -7,7 +7,7 @@ import { take } from 'rxjs/operators';
   selector: 'app-nx-welcome',
   imports: [CommonModule],
   template: `
-    <h1>Welcome to Michael Customeri 333323z</h1>
+    <h1>Welcome to Michael Cusggtomeri 333323z</h1>
     <div
       class="notifications-panel"
       *ngIf="notifications$ | async as notifications"
