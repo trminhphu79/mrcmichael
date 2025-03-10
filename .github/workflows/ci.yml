@@ -53,7 +53,7 @@ jobs:
             npx nx build $app --prod
           done
 
-      - name: 🔑 Setup SSH
+      - name: 🔑 Setup SSH Authentication
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
