@@ -7,12 +7,11 @@ import { take } from 'rxjs/operators';
   selector: 'app-nx-welcome',
   imports: [CommonModule],
   template: `
-    <h1>Welcome to 22 Cusggtomeri 333323z</h1>
+    <h1>New version Angular</h1>
     <div
       class="notifications-panel"
       *ngIf="notifications$ | async as notifications"
     >
-    Angular Test 222
       <div class="notifications-header">
         <h3>Notifications ({{ notifications.length }})</h3>
       </div>
@@ -77,5 +76,3 @@ export class NxWelcomeComponent {
     }
   }
 }
-
-
