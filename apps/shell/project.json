@@ -26,7 +26,8 @@
         "scripts": [],
         "customWebpackConfig": {
           "path": "apps/shell/webpack.config.ts"
-        }
+        },
+        "sourceMap": true
       },
       "configurations": {
         "production": {
@@ -42,6 +43,7 @@
               "maximumError": "8kb"
             }
           ],
+          "sourceMap": true,
           "outputHashing": "all"
         },
         "development": {

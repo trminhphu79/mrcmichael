@@ -11,6 +11,7 @@
       "defaultConfiguration": "production",
       "options": {
         "compiler": "babel",
+        "sourceMap": true,
         "outputPath": "dist/apps/blog",
         "index": "apps/blog/src/index.html",
         "baseHref": "/",
@@ -37,10 +38,10 @@
           ],
           "optimization": true,
           "outputHashing": "all",
-          "sourceMap": false,
-          "namedChunks": false,
+          "sourceMap": true,
+          "namedChunks": true,
           "extractLicenses": true,
-          "vendorChunk": false,
+          "vendorChunk": true,
           "webpackConfig": "apps/blog/webpack.config.prod.ts"
         }
       }

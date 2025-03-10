@@ -1,37 +1,35 @@
 {
-  "name": "michael",
+  "name": "angular",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
-  "sourceRoot": "apps/michael/src",
+  "sourceRoot": "apps/angular/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@nx/angular:webpack-browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "sourceMap": true,
-        "outputPath": "dist/apps/michael",
-        "index": "apps/michael/src/index.html",
-        "main": "apps/michael/src/main.ts",
+        "outputPath": "dist/apps/angular",
+        "index": "apps/angular/src/index.html",
+        "main": "apps/angular/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/michael/tsconfig.app.json",
+        "tsConfig": "apps/angular/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/michael/public"
+            "input": "apps/angular/public"
           }
         ],
-        "styles": ["apps/michael/src/styles.scss"],
+        "styles": ["apps/angular/src/styles.scss"],
         "scripts": [],
         "customWebpackConfig": {
-          "path": "apps/michael/webpack.config.ts"
+          "path": "apps/angular/webpack.config.ts"
         }
       },
       "configurations": {
         "production": {
-          "sourceMap": true,
           "budgets": [
             {
               "type": "initial",
@@ -46,7 +44,7 @@
           ],
           "outputHashing": "all",
           "customWebpackConfig": {
-            "path": "apps/michael/webpack.prod.config.ts"
+            "path": "apps/angular/webpack.prod.config.ts"
           }
         },
         "development": {
@@ -63,15 +61,15 @@
     "serve": {
       "executor": "@nx/angular:dev-server",
       "options": {
-        "port": 4201,
-        "publicHost": "http://localhost:4201"
+        "port": 4204,
+        "publicHost": "http://localhost:4204"
       },
       "configurations": {
         "production": {
-          "buildTarget": "michael:build:production"
+          "buildTarget": "angular:build:production"
         },
         "development": {
-          "buildTarget": "michael:build:development"
+          "buildTarget": "angular:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -79,7 +77,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "buildTarget": "michael:build"
+        "buildTarget": "angular:build"
       }
     },
     "lint": {
@@ -89,16 +87,16 @@
       "executor": "@nx/web:file-server",
       "defaultConfiguration": "production",
       "options": {
-        "buildTarget": "michael:build",
-        "port": 4201,
+        "buildTarget": "angular:build",
+        "port": 4204,
         "watch": false
       },
       "configurations": {
         "development": {
-          "buildTarget": "michael:build:development"
+          "buildTarget": "angular:build:development"
         },
         "production": {
-          "buildTarget": "michael:build:production"
+          "buildTarget": "angular:build:production"
         }
       }
     }

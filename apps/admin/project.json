@@ -11,6 +11,7 @@
       "defaultConfiguration": "production",
       "options": {
         "compiler": "babel",
+        "sourceMap": true,
         "outputPath": "dist/apps/admin",
         "index": "apps/admin/src/index.html",
         "baseHref": "/",
@@ -37,8 +38,8 @@
           ],
           "optimization": true,
           "outputHashing": "all",
-          "sourceMap": false,
-          "namedChunks": false,
+          "sourceMap": true,
+          "namedChunks": true,
           "extractLicenses": true,
           "vendorChunk": false,
           "webpackConfig": "apps/admin/webpack.config.prod.ts"

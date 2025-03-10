@@ -7,7 +7,7 @@ export const appRoutes: Route[] = [
   {
     path: '',
     loadChildren: () =>
-      loadRemote<typeof import('michael/Routes')>('michael/Routes').then(
+      loadRemote<typeof import('angular/Routes')>('angular/Routes').then(
         (m) => m!.remoteRoutes
       ),
   },
@@ -27,8 +27,5 @@ export const appRoutes: Route[] = [
       loadChildren: () => import('admin/Module').then((m) => m!.default),
     },
   },
-  {
-    path: '',
-    component: NxWelcomeComponent,
-  },
+
 ];
