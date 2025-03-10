@@ -32,6 +32,10 @@ done
 DEPLOY_DIR="/home/lelinh781/application/mcrmichael"
 echo "📦 Copying built files to VPS..."
 rsync -avz -e "ssh -i ~/.ssh/id_rsa -p 2222" dist/apps/ lelinh781@36.50.26.31:/home/lelinh781/application/mcrmichael/
+echo "🚀 Stopping apps..."
+ssh -i ~/.ssh/id_rsa -p 2222 lelinh781@36.50.26.31 "cd /home/lelinh781/application/mcrmichael && ./stop-apps.sh"
+echo "🚀 Starting apps..."
+ssh -i ~/.ssh/id_rsa -p 2222 lelinh781@36.50.26.31 "cd /home/lelinh781/application/mcrmichael && ./start.sh"
 
 if [ $? -eq 0 ]; then
   echo "✅ Deployment Successful!"
