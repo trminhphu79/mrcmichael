@@ -8,6 +8,7 @@ import {
 } from './store/useStore';
 import { Store } from '@mrcmichael/shared-state';
 import { NotificationAlert } from './alert';
+import { useEffect } from 'react';
 
 const notificationMessages = [
   '🎉 New feature released! Check it out!',
@@ -137,27 +138,17 @@ export function App() {
   const notifications = useNotifications();
   const unreadNotificationsCount = useUnreadNotificationsCount();
 
+  useEffect(() => {
+    // Ensure theme is applied when component mounts
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
   return (
     <>
       <style
         dangerouslySetInnerHTML={{
           __html: `
           ${alertStyles}
-           :root {
-  --primary-color: #2196f3;
-  --secondary-color: #1976d2;
-  --success-color: #4caf50;
-  --warning-color: #ff9800;
-  --error-color: #f44336;
-  --text-primary: #333;
-  --text-secondary: #666;
-  --background-primary: #fff;
-  --background-secondary: #f5f5f5;
-  --spacing-unit: 8px;
-  --border-radius: 8px;
-  --transition-speed: 0.3s;
-}
-
 .appContainer {
   min-height: 100vh;
   background-color: var(--background-primary);

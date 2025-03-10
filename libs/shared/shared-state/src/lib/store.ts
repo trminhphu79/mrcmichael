@@ -20,6 +20,9 @@ export class Store {
     const savedState = this.loadFromStorage();
     this.state = new BehaviorSubject<AppState>(savedState || initialState);
 
+    const savedTheme = localStorage.getItem('app-theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+
     this.state.subscribe((state) => {
       this.saveToStorage(state);
     });
@@ -118,6 +121,8 @@ export class Store {
 
   public setTheme(theme: 'light' | 'dark'): void {
     this.setState({ theme });
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('app-theme', theme);
   }
 
   public addNotification(notification: any): void {

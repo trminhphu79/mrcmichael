@@ -20,6 +20,12 @@ export class AppComponent {
   notifications$ = this.store.selectNotifications();
   currentTheme = this.theme$;
 
+  ngOnInit() {
+    this.theme$.pipe(take(1)).subscribe((currentTheme) => {
+      document.documentElement.setAttribute('data-theme', currentTheme);
+    });
+  }
+
   toggleTheme() {
     this.theme$.pipe(take(1)).subscribe((currentTheme) => {
       this.store.setTheme(currentTheme === 'light' ? 'dark' : 'light');

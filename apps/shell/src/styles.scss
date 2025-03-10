@@ -15,14 +15,6 @@
   --container-width: 1200px;
 }
 
-// Dark theme variables
-[data-theme='dark'] {
-  --text-color: #fff;
-  --bg-color: #121212;
-  --primary-color: #90caf9;
-  --secondary-color: #42a5f5;
-}
-
 :root {
   --primary-color: #2196f3;
   --success-color: #4caf50;
@@ -33,8 +25,14 @@
 }
 
 [data-theme='dark'] {
-  --background-secondary: #1e1e1e;
-  --text-secondary: #b0b0b0;
+  --text-color: #fff;
+  --bg-color: rgb(31, 24, 79);
+  --primary-color: #1f204b;
+  --secondary-color: #091824;
+  --background-secondary: #060335;
+  --text-secondary: #fff;
+  --text-primary: #fff;
+  --background-primary: #1f204b;
 }
 
 * {
@@ -49,6 +47,7 @@ body {
   color: var(--text-color);
   transition: background-color 0.3s ease;
 }
+
 
 // Navbar
 .navbar {
@@ -159,10 +158,9 @@ body {
   }
 }
 
-/* You can add global styles to this file, and also import other style files */
 // Notifications
 .notifications-panel {
-  background-color: var(--bg-color);
+  background-color: var(--background-secondary);
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
@@ -207,14 +205,6 @@ body {
     text-align: center;
     color: #666;
   }
-}
-
-.notifications-panel {
-  background: var(--background-secondary);
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin: 1rem;
-  width: 100%;
 }
 
 .notifications-header {
@@ -348,4 +338,40 @@ body {
 
 .notification-item {
   animation: slideIn 0.3s ease-out;
+}
+
+button {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: var(--secondary-color);
+  }
+}
+
+li,
+button {
+  border-radius: 8px;
+}
+
+
+
+body[data-theme='dark'] {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  span,
+  li,
+  button {
+    color: var(--text-color) !important;
+  }
 }

@@ -14,9 +14,7 @@
   </ul>
   <div class="nav-actions">
     <button class="theme-toggle" (click)="toggleTheme()">
-      <i class="material-icons">{{
-        (currentTheme | async) === 'dark' ? 'light_mode' : 'dark_mode'
-      }}</i>
+      Mode: {{ (currentTheme | async) }}
     </button>
   </div>
 </nav>
