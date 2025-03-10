@@ -34,20 +34,75 @@ SSH_CMD="ssh -i ~/.ssh/id_rsa -p 2222 lelinh781@36.50.26.31"
 echo "📦 Copying built files to VPS..."
 rsync -avz -e "ssh -i ~/.ssh/id_rsa -p 2222" dist/apps/ lelinh781@36.50.26.31:/home/lelinh781/application/mcrmichael/
 
+# **Step 3: Restart PM2 Services for Affected Apps**
+echo "🔄 Restarting services for affected apps..."
 
-echo "🚀 Stopping apps..."
-if $SSH_CMD "cd /home/lelinh781/application/mcrmichael && ./stop-apps.sh"; then
-    echo "✅ Apps stopped successfully"
-else
-    echo "❌ Failed to stop apps"
-    exit 1
+# Create a temporary script to restart only affected services
+RESTART_SCRIPT=$(cat <<EOF
+#!/bin/bash
+cd $DEPLOY_DIR
+
+# Check if PM2 is installed
+if ! command -v pm2 &> /dev/null; then
+    echo "Installing PM2..."
+    npm install -g pm2
 fi
 
-echo "🚀 Starting apps..."
-if $SSH_CMD "cd /home/lelinh781/application/mcrmichael && ./start.sh"; then
-    echo "✅ Apps started successfully"
+# Function to restart or create PM2 service
+restart_service() {
+    local app=\$1
+    local port=\$2
+    
+    echo "Restarting \$app on port \$port..."
+    
+    # Check if service exists
+    if pm2 list | grep -q "\$app"; then
+        # Restart existing service
+        pm2 restart \$app
+    else
+        # Create new service
+        pm2 serve ./\$app \$port --spa --name "\$app"
+    fi
+}
+
+# Map app names to ports
+EOF
+)
+
+# Add restart commands for each affected app
+for app in $APPS; do
+  case $app in
+    "shell")
+      RESTART_SCRIPT+="restart_service shell 4200\n"
+      ;;
+    "blog")
+      RESTART_SCRIPT+="restart_service blog 4201\n"
+      ;;
+    "angular")
+      RESTART_SCRIPT+="restart_service angular 4204\n"
+      ;;
+    "admin")
+      RESTART_SCRIPT+="restart_service admin 4203\n"
+      ;;
+  esac
+done
+
+RESTART_SCRIPT+="
+# Save PM2 configuration
+pm2 save
+
+# List running services
+pm2 list
+
+echo '✅ Services restarted successfully!'
+"
+
+# Execute the restart script on the VPS
+echo "Executing restart script on VPS..."
+if $SSH_CMD "echo '$RESTART_SCRIPT' > $DEPLOY_DIR/restart-affected.sh && chmod +x $DEPLOY_DIR/restart-affected.sh && $DEPLOY_DIR/restart-affected.sh"; then
+    echo "✅ Services restarted successfully"
 else
-    echo "❌ Failed to start apps"
+    echo "❌ Failed to restart services"
     exit 1
 fi
 
