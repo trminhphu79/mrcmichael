@@ -1,5 +1,26 @@
 #!/bin/bash
 
+# Find the full path to http-server
+HTTP_SERVER_PATH=$(which http-server)
+
+if [ -z "$HTTP_SERVER_PATH" ]; then
+    # Try common locations
+    for path in "/usr/local/bin/http-server" "/usr/bin/http-server" "$HOME/.npm-global/bin/http-server" "$HOME/.nvm/versions/node/*/bin/http-server" "$NVM_BIN/http-server"; do
+        if [ -f "$path" ]; then
+            HTTP_SERVER_PATH="$path"
+            break
+        fi
+    done
+fi
+
+if [ -z "$HTTP_SERVER_PATH" ]; then
+    echo "❌ http-server not found in PATH or common locations"
+    echo "Current PATH: $PATH"
+    exit 1
+fi
+
+echo "Using http-server at: $HTTP_SERVER_PATH"
+
 # Kill any existing http-server processes
 pkill -f http-server
 echo "Cleaned up existing processes"
@@ -22,8 +43,8 @@ start_server() {
     cd "$dir"
     echo "Current directory: $(pwd)"
     
-    # Start server with no-cache headers
-    http-server ./ \
+    # Use the full path to http-server
+    $HTTP_SERVER_PATH ./ \
         --cors \
         -a 0.0.0.0 \
         --port "$port" \
