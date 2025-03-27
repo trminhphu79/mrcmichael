@@ -2,10 +2,11 @@ import { StoreService } from './store';
 import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { take } from 'rxjs/operators';
+import { AmChartComponent } from './example-chart.component';
 
 @Component({
   selector: 'app-nx-welcome',
-  imports: [CommonModule],
+  imports: [CommonModule,AmChartComponent],
   template: `
     <h1>New version Angular 4</h1>
     <div
@@ -40,6 +41,8 @@ import { take } from 'rxjs/operators';
         No new notifications
       </div>
     </div>
+
+    <app-am-chart> </app-am-chart>
   `,
   styles: [],
   encapsulation: ViewEncapsulation.None,

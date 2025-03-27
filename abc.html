@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Multi File Upload</title>
+</head>
+<body>
+  <h2>Upload Multiple Files</h2>
+
+  <form id="uploadForm">
+    <label>
+      Collection ID:
+      <input type="text" name="collectionId" value="123e4567-e89b-12d3-a456-426614174000" />
+    </label><br /><br />
+
+    <label>
+      Collection Type:
+      <input type="text" name="collectionType" value="ShopCollection" />
+    </label><br /><br />
+
+    <label>
+      Metadata (refId per file):
+      <textarea name="metadata" rows="4" cols="50">[{"refId":"refId của item thứ 1"}]</textarea>
+    </label><br /><br />
+
+    <label>
+      Files:
+      <input type="file" id="filesInput" name="files" multiple />
+    </label><br /><br />
+
+    <button type="submit">Upload</button>
+  </form>
+
+  <pre id="result"></pre>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    const result = document.getElementById('result');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData();
+      const collectionId = form.collectionId.value;
+      const collectionType = form.collectionType.value;
+      const metadata = form.metadata.value;
+      const files = document.getElementById('filesInput').files;
+
+      formData.append('collectionId', collectionId);
+      formData.append('collectionType', collectionType);
+      formData.append('metadata', metadata); // should be a valid JSON string
+
+      for (let i = 0; i < files.length; i++) {
+        formData.append('files', files[i]);
+      }
+
+      try {
+        const res = await fetch('http://localhost:3001/api/v1/collection/doc/multiple', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiIyODIzYWQ0ZC0yNmNhLTRiZTctYWUzZC1hY2RhMjhjOGJiY2YiLCJ1c2VySWQiOiJmZTQzNDAyZC01NDRkLTQzYzgtYmEwNy0wMGM5ZGU3NDk0MjAiLCJzZXNzaW9uSWQiOiIxOTg0ZDg3Ni1iNmU2LTQxOTAtOGY1Ni0zZjU4MjJjZWFmMTkiLCJpYXQiOjE3NDI2MTU3MDQsImV4cCI6MTc0MzIyMDUwNH0.6Kp6ry80QbUsGMffNO5GUNsGjvRBi1BWSOIjeyM_LKv7kKt9WB9nRuCE3bzI1j0lvs22uWQlF8bRH90Mar7_unhzI6EEHnV6qFEBAd_xpFHHJDP7k9v9dRGddKRDmrCBJwQGMejigZ8GZqL8RmRv86myWCBTfr2g3eFgjYWAODHeJCVIsQ10XwQ0mawpZrVgA1MSP3fRYprYYgicpp1qRq74gY9zOMvnN68ZEnpGxO59h76ETv0DkFvs3rGRWmSx4U5_lIZOI7_OhujOfER33zjwO4uudLlR1vLxAnPnWElUd2lq48j7nxKNu6wFbhqc9aopXPqKtjrsqk9Nl6-1Qw'
+          }
+        });
+
+        const data = await res.json();
+        result.textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        console.error('Upload error:', err);
+        result.textContent = 'Upload failed: ' + err.message;
+      }
+    });
+  </script>
+</body>
+</html>

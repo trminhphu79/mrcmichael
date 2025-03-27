@@ -63,6 +63,7 @@
     "typescript-eslint": "^8.19.0"
   },
   "dependencies": {
+    "@amcharts/amcharts5": "^5.11.1",
     "@angular/animations": "~19.1.0",
     "@angular/common": "~19.1.0",
     "@angular/compiler": "~19.1.0",

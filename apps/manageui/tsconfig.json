@@ -9,9 +9,7 @@
     "noFallthroughCasesInSwitch": true
   },
   "files": [],
-  "include": [
-      "node_modules/@amcharts/amcharts5/*"
-  ],
+  "include": [],
   "references": [
     {
       "path": "./tsconfig.editor.json"

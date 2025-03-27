@@ -1,9 +1,15 @@
-import { NxWelcomeComponent } from './nx-welcome.component';
 import { Route } from '@angular/router';
 import { loadRemote } from '@module-federation/enhanced/runtime';
 import { ReactWrapperComponent } from './wrapper/react/react-wrapper.component';
 
 export const appRoutes: Route[] = [
+  {
+    path: 'angular',
+    loadChildren: () =>
+      loadRemote<typeof import('angular/Routes')>('angular/Routes').then(
+        (m) => m!.remoteRoutes
+      ),
+  },
   {
     path: '',
     loadChildren: () =>
@@ -27,5 +33,4 @@ export const appRoutes: Route[] = [
       loadChildren: () => import('admin/Module').then((m) => m!.default),
     },
   },
-
 ];

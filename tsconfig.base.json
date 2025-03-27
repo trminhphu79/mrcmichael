@@ -21,6 +21,7 @@
       "admin/Module": ["apps/admin/src/remote-entry.ts"],
       "angular/Routes": ["apps/angular/src/app/remote-entry/entry.routes.ts"],
       "blog/Module": ["apps/blog/src/remote-entry.ts"],
+      "manageui/Routes": ["apps/manageui/src/app/remote-entry/entry.routes.ts"],
       "michael/Module": ["apps/michael/src/app/remote-entry/entry.routes.ts"]
     }
   },
